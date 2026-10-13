@@ -6,8 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "contrat")
@@ -29,4 +33,11 @@ public class Contrat {
 
     @Column(nullable = false)
     private boolean valide;
+
+    @OneToOne
+    private Reservation reservation;
+
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private Set<Paiement> paiements = new HashSet<>();
 }
